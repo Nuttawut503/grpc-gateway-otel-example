@@ -1,0 +1,23 @@
+syntax = "proto3";
+package order;
+option go_package="server/orderpb";
+
+import "protos/annotations.proto";
+
+message CreateCustomerOrderRequest {
+  string customer_id = 1;
+  double price = 2;
+}
+
+message CreateCustomerOrderResponse {
+  string transaction_id = 1;
+}
+
+service Order {
+  rpc CreateCustomerOrder(CreateCustomerOrderRequest) returns (CreateCustomerOrderResponse) {
+    option (google.api.http) = {
+      post: "/order",
+      body: "*"
+    };
+  };
+}

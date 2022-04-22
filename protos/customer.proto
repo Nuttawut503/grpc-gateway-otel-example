@@ -1,0 +1,35 @@
+syntax = "proto3";
+package customer;
+option go_package="server/customerpb";
+
+import "protos/annotations.proto";
+
+message GetCustomersRequest {}
+
+message GetCustomersResponse {
+  message Customer {
+    string customer_id = 1;
+    string customer_name = 2;
+  }
+  repeated Customer customers = 1;
+}
+
+message GetCustomerCreditLimitRequest {
+  string customer_id = 1;
+}
+
+message GetCustomerCreditLimitResponse {
+  string customer_id = 1;
+  string customer_name = 2;
+  double customer_credit_limit = 3;
+}
+
+service Customer {
+  rpc GetCustomers(GetCustomersRequest) returns (GetCustomersResponse) {
+    option (google.api.http) = {
+      get: "/customers"
+    };
+  };
+  
+  rpc GetCustomerCreditLimit(GetCustomerCreditLimitRequest) returns (GetCustomerCreditLimitResponse);
+}

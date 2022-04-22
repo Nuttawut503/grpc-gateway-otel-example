@@ -1,0 +1,18 @@
+@CustomerAPI = http://localhost:8081
+@OrderAPI = http://localhost:8082
+
+###
+
+# @name customers 
+
+GET {{CustomerAPI}}/customers
+
+###
+
+POST {{OrderAPI}}/order
+Content-Type: application/json
+
+{
+  "customerId": "{{customers.response.body.$.customers[0].customerId}}",
+  "price": 2000
+}
