@@ -4,6 +4,7 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/exporters/jaeger"
+	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/resource"
 	"go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
@@ -11,7 +12,6 @@ import (
 
 var (
 	_environment = "production"
-	_url         = "http://localhost:14268/api/traces"
 )
 
 func NewTraceProvider(serviceName string) (*trace.TracerProvider, error) {
@@ -32,5 +32,6 @@ func NewTraceProvider(serviceName string) (*trace.TracerProvider, error) {
 		)),
 	)
 	otel.SetTracerProvider(provider)
+	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{}))
 	return provider, nil
 }

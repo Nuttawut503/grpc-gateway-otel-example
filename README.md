@@ -7,9 +7,6 @@ Modules
 - [otelgrpc from OpenTelemetry-contrib](https://github.com/open-telemetry/opentelemetry-go-contrib/tree/main/instrumentation/google.golang.org/grpc/otelgrpc)
 
 
-This isn't fully done yet
-need to edit how to do distributed tracing (merging multiple services)
-
 This application has two services - Customer and Order
 - Customer, I added two default customers and their IDs are "A310" and "K423"
   each customer has credit_limit (will explain about why it exists)
@@ -55,3 +52,5 @@ curl localhost:8082/order \
 -H 'Content-Type: application/json' \
 -d '{"customerId": "A310", "price": 22}'
 ```
+
+Visit the Jaeger UI [http://localhost:16686/](http://localhost:16686/)

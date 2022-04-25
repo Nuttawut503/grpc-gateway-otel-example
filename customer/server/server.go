@@ -3,11 +3,13 @@ package server
 import (
 	"context"
 	"grpc-tracing/customer/server/customerpb"
+	"log"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/trace"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 )
 
@@ -37,6 +39,8 @@ func (CustomerServer) GetCustomers(ctx context.Context, req *customerpb.GetCusto
 }
 
 func (CustomerServer) GetCustomerCreditLimit(ctx context.Context, req *customerpb.GetCustomerCreditLimitRequest) (*customerpb.GetCustomerCreditLimitResponse, error) {
+	md, _ := metadata.FromIncomingContext(ctx)
+	log.Println("Timestamp", md.Get("timestamp"))
 	_, span := tr.Start(ctx, "check-credit-limit",
 		trace.WithAttributes(attribute.String("extra.customer_id", req.CustomerId)))
 	defer span.End()
